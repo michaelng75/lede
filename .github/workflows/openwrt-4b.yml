@@ -32,7 +32,31 @@ jobs:
 
       - name: Initialization environment
         env:
-          DEBIAN_FRONTEND: noninteractive
+       REPO_URL: https://github.com/hikelin19871112/lede.git
+       REPO_BRANCH: master
+       FEEDS_CONF: feeds.conf.default
+       CONFIG_FILE: .config
+       DIY_P1_SH: diy-part1.sh
+       DIY_P2_SH: diy-part2.sh
+       SSH_ACTIONS: false
+       UPLOAD_BIN_DIR: false
+       UPLOAD_FIRMWARE: true
+       UPLOAD_COWTRANSFER: false
+       UPLOAD_WETRANSFER: false
+       TZ: Asia/Shanghai
+
+      jobs:
+      build:
+      runs-on: ubuntu-latest
+      if: github.event.repository.owner.id == github.event.sender.id
+
+      steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Initialization environment
+        env:
+        DEBIAN_FRONTEND: noninteractive
         run: |
           docker rmi `docker images -q`
           echo "Deleting files, please wait ..."
